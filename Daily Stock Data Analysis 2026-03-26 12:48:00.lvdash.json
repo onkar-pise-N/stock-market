@@ -6,6 +6,55 @@
       "queryLines": [
         "select * from stock_data.default.gold_daily_stock_data;"
       ]
+    },
+    {
+      "name": "eca8665b",
+      "displayName": "Weekly_DashBoards",
+      "queryLines": [
+        "SELECT * FROM stock_data.default.gold_weekly_stock_data;\r\n"
+      ],
+      "columns": [
+        {
+          "displayName": "trading_spread",
+          "description": "Trading volume spread: difference between high and low prices",
+          "expression": "`high` - `low`"
+        }
+      ]
+    },
+    {
+      "name": "58ab2246",
+      "displayName": "Monthly_Dashboards",
+      "queryLines": [
+        "SELECT * FROM stock_data.default.gold_monthly_stock_data;\r\n"
+      ],
+      "columns": [
+        {
+          "displayName": "daily_return_range",
+          "description": "Daily return percentage range: max minus min per month",
+          "expression": "`daily_return_pct_max` - `daily_return_pct_min`"
+        }
+      ]
+    },
+    {
+      "name": "d4eaa13c",
+      "displayName": "Top_gainers",
+      "queryLines": [
+        "SELECT * FROM stock_data.default.gold_top_gainers_stock_data;\r\n"
+      ]
+    },
+    {
+      "name": "b10f3ff4",
+      "displayName": "Top_losers",
+      "queryLines": [
+        "SELECT * FROM stock_data.default.gold_top_losers_stock_data;\r\n"
+      ],
+      "columns": [
+        {
+          "displayName": "week_date",
+          "description": "Date truncated to week for weekly aggregation",
+          "expression": "DATE_TRUNC('WEEK', `date`)"
+        }
+      ]
     }
   ],
   "pages": [
@@ -84,6 +133,979 @@
           "position": {
             "x": 0,
             "y": 0,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "a88da783",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "b10f3ff4",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(daily_return_pct)",
+                      "expression": "AVG(`daily_return_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Losers Daily Return % by Sector",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(daily_return_pct)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Avg Daily Return %",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "700d5f0f",
+      "displayName": "Weekly_dashboards",
+      "layout": [
+        {
+          "widget": {
+            "name": "27e1280b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "d4eaa13c",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(open)",
+                      "expression": "AVG(`open`)"
+                    },
+                    {
+                      "name": "avg(close)",
+                      "expression": "AVG(`close`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Open vs Close Prices by Sector",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "primary": {
+                    "fields": [
+                      {
+                        "fieldName": "avg(open)",
+                        "displayName": "Avg Open Price"
+                      }
+                    ],
+                    "scale": {
+                      "type": "quantitative"
+                    }
+                  },
+                  "secondary": {
+                    "fields": [
+                      {
+                        "fieldName": "avg(close)",
+                        "displayName": "Avg Close Price"
+                      }
+                    ],
+                    "scale": {
+                      "type": "quantitative"
+                    }
+                  }
+                },
+                "color": {
+                  "legend": {
+                    "position": "top"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "a7320226",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "eca8665b",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(daily_return_pct)",
+                      "expression": "AVG(`daily_return_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Weekly Avg Return % by Sector",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(daily_return_pct)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Avg Return %",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "9ed23086",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "eca8665b",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(trading_spread)",
+                      "expression": "AVG(`trading_spread`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Sectors by Avg Weekly Trading Spread",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(trading_spread)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    },
+                    "abbreviation": "none"
+                  },
+                  "displayName": "Avg Trading Spread",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "45854bf8",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "eca8665b",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "daily(date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `date`)"
+                    },
+                    {
+                      "name": "max(daily_return)",
+                      "expression": "MAX(`daily_return`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(date)",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "max(daily_return)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 20,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "fbd4f3f9",
+      "displayName": "Monthly Analysis",
+      "layout": [
+        {
+          "widget": {
+            "name": "2cc8ca05",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "58ab2246",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(volatility_30)",
+                      "expression": "AVG(`volatility_30`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "30-Day Volatility by Sector",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(volatility_30)",
+                  "format": {
+                    "type": "number-plain",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    },
+                    "abbreviation": "none"
+                  },
+                  "displayName": "Avg 30-Day Volatility",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "9e0cc135",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "58ab2246",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(daily_return_range)",
+                      "expression": "AVG(`daily_return_range`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Monthly Daily Return Range by Sector",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(daily_return_range)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Avg Daily Return Range (%)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "e7805097",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "58ab2246",
+                  "fields": [
+                    {
+                      "name": "sum(year)",
+                      "expression": "SUM(`year`)"
+                    },
+                    {
+                      "name": "daily(date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `date`)"
+                    },
+                    {
+                      "name": "sum(daily_return_avg)",
+                      "expression": "SUM(`daily_return_avg`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(daily_return_avg)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sum(year)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "cf388521",
+      "displayName": "Top Gainers",
+      "layout": [
+        {
+          "widget": {
+            "name": "aea66ac7",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "d4eaa13c",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(daily_return_pct)",
+                      "expression": "AVG(`daily_return_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Gainers Daily Return % by Sector",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(daily_return_pct)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Avg Daily Return %",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "9ab0fa2c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "d4eaa13c",
+                  "fields": [
+                    {
+                      "name": "avg(daily_return_pct)",
+                      "expression": "AVG(`daily_return_pct`)"
+                    },
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Gainers by Sector Over Time",
+                "showTitle": true
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "avg(daily_return_pct)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Avg Daily Return %"
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "b4d0a51d",
+      "displayName": "Top Losers",
+      "layout": [
+        {
+          "widget": {
+            "name": "47b98954",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "b10f3ff4",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "avg(daily_return_pct)",
+                      "expression": "AVG(`daily_return_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Losers Daily Return % by Sector",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sector",
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(daily_return_pct)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Avg Daily Return %",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "e4cb9cfe",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "b10f3ff4",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "daily(date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `date`)"
+                    },
+                    {
+                      "name": "avg(daily_return_pct)",
+                      "expression": "AVG(`daily_return_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Losers Weekly Return % Over Time",
+                "showTitle": true
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(daily_return_pct)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "sector"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
             "width": 12,
             "height": 8
           }
