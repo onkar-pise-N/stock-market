@@ -1,0 +1,102 @@
+{
+  "datasets": [
+    {
+      "name": "1c408833",
+      "displayName": "Daily_Dashboards",
+      "queryLines": [
+        "select * from stock_data.default.gold_daily_stock_data;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "f1d825c6",
+      "displayName": "Daily_avg",
+      "layout": [
+        {
+          "widget": {
+            "name": "8b705dc3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "1c408833",
+                  "fields": [
+                    {
+                      "name": "sector",
+                      "expression": "`sector`"
+                    },
+                    {
+                      "name": "date",
+                      "expression": "`date`"
+                    },
+                    {
+                      "name": "avg(daily_return_pct)",
+                      "expression": "AVG(`daily_return_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Avg Daily Return % by Sector Over Time",
+                "showTitle": true
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "date",
+                  "displayName": "Date",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(daily_return_pct)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Avg Daily Return %",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sector",
+                  "legend": {
+                    "position": "right"
+                  },
+                  "displayName": "Sector",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
